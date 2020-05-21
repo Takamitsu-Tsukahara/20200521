@@ -1,6 +1,7 @@
 package demo.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,12 @@ public class ControllerUser {
 		System.out.println(y.plusYears(1));
 		System.out.println(y.plusYears(UserData.getYear()));
 
+		ModelUser loopUserData;
+		List<ModelUser> list = useRepository.selectByExample();
+		for (int i=1;i<=list.size();i++) {
+			loopUserData = useRepository.selectByPrimaryKey(i);
+			System.out.println(loopUserData);
+		}
 		return "add";
 	}
 }
