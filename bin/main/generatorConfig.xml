@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="PlusYearMonthDay"  targetRuntime="MyBatis3">
+        <property name="autoDelimitKeyWords" value="true" />
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+        <jdbcConnection
+            connectionURL="jdbc:mysql://localhost:3306/demo"
+            driverClass="com.mysql.cj.jdbc.Driver"
+            password="pass"
+            userId="demoTT" />
+        <javaModelGenerator
+            targetPackage="demo.domainModel"
+            targetProject="20200521/src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <sqlMapGenerator
+            targetPackage="demo.repository"
+            targetProject="20200521/src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <javaClientGenerator
+            targetPackage="demo.repository"
+            targetProject="20200521/src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <table tableName="PlusYearMonthDay" domainObjectName="ModelUser"
+            mapperName="RepositoryUser"
+            enableInsert="true"
+            enableSelectByPrimaryKey="true"
+            enableSelectByExample="true"
+            enableUpdateByPrimaryKey="true"
+            enableUpdateByExample="true"
+            enableDeleteByPrimaryKey="true"
+            enableDeleteByExample="true"
+            enableCountByExample="true"
+            selectByExampleQueryId="true"
+            modelType="flat" >
+            <columnRenamingRule searchString="^class$" replaceString="clazz"/>
+            <columnOverride column="id" delimitedColumnName="true"/>
+            <columnOverride column="name" delimitedColumnName="true"/>
+        </table>
+    </context>
+</generatorConfiguration>

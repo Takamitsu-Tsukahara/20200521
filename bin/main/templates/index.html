@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<form th:action="@{/add}" th:object="${input_screen}" method="post">
+			<p>日付新規登録</p>
+			<span><input type="date" id="inputYearMonthDay" name="inputYearMonthDay" th:field="*{YMD}"></span>
+			<div>
+				<input type="submit" value="登録" class="btn">
+			</div>
+		</form>
+	</div>
+</body>
+</html>
