@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link href="option.css" rel="stylesheet"></link>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<div>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>処理名</th>
+					<th>年</th>
+					<th>月</th>
+					<th>日</th>
+					<th>処理後日付</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${List}" th:object="${user}">
+					<td th:text="*{id}"></td>
+					<td th:text="*{name}"></td>
+					<td th:text="*{year}"></td>
+					<td th:text="*{month}"></td>
+					<td th:text="*{day}"></td>
+					<td th:text="*{YearMonthDay}"></td>
+					<td><a th:href="@{/edit{id}(id=*{id})}">編集</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<form th:action="@{/add}" th:object="${input_screen}" method="post">
+			<H1>日付新規登録</H1>
+			<span><input type="date" id="inputYearMonthDay"
+				name="inputYearMonthDay" th:field="*{YMD}"></span>
+			<div>
+				<input type="submit" value="登録" class="btn">
+			</div>
+		</form>
+	</div>
 
 </body>
 </html>
