@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="option.css" rel="stylesheet"></link>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<H1>編集</H1>
+	<form th:action="@{/edit_input}" th:object="${input_screen}" method="post">
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>処理名</th>
+				<th>年</th>
+				<th>月</th>
+				<th>日</th>
+			</tr>
+			<tr>
+				<td><input type="hidden" id="inputId" name="inputId" th:field="*{id}"><span th:text="*{id}"></span></td>
+				<td><input type="text" id="inputName" name="inputName" th:field="*{name}"></td>
+				<td><input type="number" id="inputYear" name="inputYear" th:field="*{year}"></td>
+				<td><input type="number" id="inputMonth" name="inputMonth" th:field="*{month}"></td>
+				<td><input type="number" id="inputDay" name="inputDay" th:field="*{day}"></td>
+			</tr>
+		</table>
+		<div>
+			<input type="submit" value="登録" class="btn">
+		</div>
+	</form>
+
+</body>
+</html>

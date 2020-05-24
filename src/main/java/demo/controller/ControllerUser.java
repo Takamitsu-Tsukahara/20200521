@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import demo.domainModel.ModelUser;
@@ -24,8 +27,11 @@ public class ControllerUser {
 
     @GetMapping("/")
     public String index(Model model) {
+    	List<ModelUser> list = useRepository.selectByExample();
+    	//リスト表示
+    	model.addAttribute("List", list);
     	//新規入力画面
-    	model.addAttribute("input_screen", new RequestUser());
+    	model.addAttribute("input_screen",new RequestUser());
         return "index";
     }
 	@RequestMapping("/add")
@@ -38,7 +44,8 @@ public class ControllerUser {
 //		System.out.println(holdingYearMonthDay);
 //		System.out.println("****************************************");
 		// (2) DBから取り出し
-		ModelUser putDB_Id_Name_Year_Month_Day = useRepository.selectByPrimaryKey(1);
+		ModelUser putDB_Id_Name_Year_Month_Day;
+//		putDB_Id_Name_Year_Month_Day = useRepository.selectByPrimaryKey(1);
 //		System.out.println(putDB_Id_Name_Year_Month_Day);
 //		System.out.println(holdingYearMonthDay.plusYears(1));
 //		System.out.println(holdingYearMonthDay.plusYears(putDB_Id_Name_Year_Month_Day.getYear()));
@@ -85,7 +92,63 @@ public class ControllerUser {
     	//新規入力画面
     	model.addAttribute("input_screen", new RequestUser());
     	// (10) 表示するHTML名選択
-		return "index";
+		return "result";
+	}
+    @RequestMapping("/edit{id}")
+	public String edit(@PathVariable Integer id, Model model) {
+    	//DBから呼び出し
+    	ModelUser putDB_Id_Name_Year_Month_Day = useRepository.selectByPrimaryKey(id);
+    	//表示
+    	model.addAttribute("input_screen", putDB_Id_Name_Year_Month_Day);
+		return "edit";
+	}
+
+    @RequestMapping(value="/edit_input")
+    public String editAdd(@ModelAttribute @Valid ModelUser holding_Id_Name_Year_Month_Day , Model model) {
+    	//新規に作成
+    	ModelUser input_Id_Name_Year_Month_Day = new ModelUser();
+    	//入力された数値を入れる
+    	input_Id_Name_Year_Month_Day.setId(holding_Id_Name_Year_Month_Day.getId());
+    	input_Id_Name_Year_Month_Day.setName(holding_Id_Name_Year_Month_Day.getName());
+    	input_Id_Name_Year_Month_Day.setYear(holding_Id_Name_Year_Month_Day.getYear());
+    	input_Id_Name_Year_Month_Day.setMonth(holding_Id_Name_Year_Month_Day.getMonth());
+    	input_Id_Name_Year_Month_Day.setDay(holding_Id_Name_Year_Month_Day.getDay());
+    	useRepository.updateByPrimaryKeySelective(input_Id_Name_Year_Month_Day);
+    	return "redirect:";
+    }
+
+    @RequestMapping("/newEdit")
+	public String newEdit(Model model) {
+    	RequestUser viewData = new RequestUser();
+    	viewData.setName("新規");
+    	viewData.setYear(0);
+    	viewData.setMonth(0);
+    	viewData.setDay(0);
+    	//表示
+    	model.addAttribute("input_screen",viewData);
+		return "newEdit";
+	}
+
+    @RequestMapping("/input_newEdit")
+    public String newEditAdd(@ModelAttribute @Valid RequestUser holding_Id_Name_Year_Month_Day , Model model) {
+    	//新規に作成
+    	ModelUser input_Id_Name_Year_Month_Day = new ModelUser();
+    	//入力された数値を入れる
+    	input_Id_Name_Year_Month_Day.setId(holding_Id_Name_Year_Month_Day.getId());
+    	input_Id_Name_Year_Month_Day.setName(holding_Id_Name_Year_Month_Day.getName());
+    	input_Id_Name_Year_Month_Day.setYear(holding_Id_Name_Year_Month_Day.getYear());
+    	input_Id_Name_Year_Month_Day.setMonth(holding_Id_Name_Year_Month_Day.getMonth());
+    	input_Id_Name_Year_Month_Day.setDay(holding_Id_Name_Year_Month_Day.getDay());
+    	useRepository.insertSelective(input_Id_Name_Year_Month_Day);
+    	return "redirect:";
+    }
+    @RequestMapping("/delete{id}")
+	public String delete(@PathVariable Integer id, Model model) {
+
+    	useRepository.deleteByPrimaryKey(id);
+    	System.out.println("削除");
+
+		return "redirect:";
 	}
 }
 

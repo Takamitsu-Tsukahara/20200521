@@ -6,15 +6,20 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<H1>日付</H1>
 	<div>
 		<form th:action="@{/add}" th:object="${input_screen}" method="post">
-			<H1>日付新規登録</H1>
+			<H3>基準日付入力</H3>
 			<span><input type="date" id="inputYearMonthDay" name="inputYearMonthDay" th:field="*{YMD}" ></span>
 			<div>
 				<input type="submit" value="登録" class="btn">
 			</div>
 		</form>
 	</div>
+	<p>************************************</p>
+	<span><a th:href="@{/newEdit}">新規作成</a></span>
+	<p>************************************</p>
+	<h3>日付処理表示</h3>
 	<div>
 		<table border="1">
 			<thead>
@@ -24,7 +29,7 @@
 					<th>年</th>
 					<th>月</th>
 					<th>日</th>
-					<th>処理後日付</th>
+					<th></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -35,8 +40,8 @@
 					<td th:text="*{year}"></td>
 					<td th:text="*{month}"></td>
 					<td th:text="*{day}"></td>
-					<td th:text="*{YearMonthDay}"></td>
 					<td><a th:href="@{/edit{id}(id=*{id})}">編集</a></td>
+					<td><a th:href="@{/delete{id}(id=*{id})}">削除</a></td>
 				</tr>
 			</tbody>
 		</table>
