@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import demo.domainModel.ModelUser;
 import demo.listYearMonthDay.ListYearMonthDay;
+import demo.list_name.ListName;
 import demo.repository.RepositoryUser;
 import demo.request.RequestUser;
 
@@ -31,7 +32,23 @@ public class ControllerUser {
     	//リスト表示
     	model.addAttribute("List", list);
     	//新規入力画面
-    	model.addAttribute("input_screen",new RequestUser());
+    	model.addAttribute("input_screen_day_Calculation",new RequestUser());
+
+    	ModelUser listName;
+    	ListName list_name = new ListName();
+    	List<ListName> L_name = new ArrayList<>();
+
+    	for (int i=1;i<=list.size();i++) {
+
+    		listName = useRepository.selectByPrimaryKey(i);
+    		list_name.setName(listName.getName());
+    		//確認
+    		System.out.println(list_name);
+    		L_name.add(list_name);
+    	}
+    	model.addAttribute("listname_screen",L_name);
+
+
         return "index";
     }
 	@RequestMapping("/add")
@@ -102,7 +119,6 @@ public class ControllerUser {
     	model.addAttribute("input_screen", putDB_Id_Name_Year_Month_Day);
 		return "edit";
 	}
-
     @RequestMapping(value="/edit_input")
     public String editAdd(@ModelAttribute @Valid ModelUser holding_Id_Name_Year_Month_Day , Model model) {
     	//新規に作成
@@ -116,7 +132,6 @@ public class ControllerUser {
     	useRepository.updateByPrimaryKeySelective(input_Id_Name_Year_Month_Day);
     	return "redirect:";
     }
-
     @RequestMapping("/newEdit")
 	public String newEdit(Model model) {
     	RequestUser viewData = new RequestUser();
@@ -128,7 +143,6 @@ public class ControllerUser {
     	model.addAttribute("input_screen",viewData);
 		return "newEdit";
 	}
-
     @RequestMapping("/input_newEdit")
     public String newEditAdd(@ModelAttribute @Valid RequestUser holding_Id_Name_Year_Month_Day , Model model) {
     	//新規に作成
@@ -142,26 +156,21 @@ public class ControllerUser {
     	useRepository.insertSelective(input_Id_Name_Year_Month_Day);
     	return "redirect:";
     }
-    @RequestMapping("/delete{id}")
+   @RequestMapping("/delete{id}")
 	public String delete(@PathVariable Integer id, Model model) {
-
     	useRepository.deleteByPrimaryKey(id);
     	System.out.println("削除");
-
 		return "redirect:";
 	}
+
+
+
+
+   @RequestMapping("/select_name")
+	public String selectName(@ModelAttribute String selectListName, Model model) {
+
+	   System.out.println(selectListName);
+
+		return "select";
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
